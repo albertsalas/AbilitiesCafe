@@ -1,37 +1,56 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-materialize';
+import { projectFirestore } from "../firebase";
+import Button from 'react-bootstrap/Button';
 
 export default () => {
 
-    // testing array that will contain products before we stablish online conectivity
-    const [products] = useState([
-    {
-        name: "Cookies",
-        price: "$3.00",
-        image: "test_images/cookie.jpg",
-        description: "Cookies.  Need I say more?"
-    },
-    {
-        name: "Sandwich",
-        price: "$10.00",
-        image: "test_images/Sandwich.jpg",
-        description: "Artisan sandwiches"
-    },
-    {
-        name: "Coffee",
-        price: "$4.00",
-        image: "test_images/Coffee.jpg",
-        description: "Coffee, available in 'for here' and 'to go' cups"
-    },
-    {
-        name: "Scones",
-        price: "$5.50",
-        image: "test_images/Scone.jpg",
-        description: "Housemade scones"
-    },
- ]);
+    const [products, setProducts] = useState([])
+    const ref = projectFirestore.collection('products');
 
-// function to display products based on Daniel's code
+    function getProducts() {
+        ref.onSnapshot((querySnapshot) => {
+            const items = [];
+            querySnapshot.forEach((doc) => {
+                items.push(doc.data());
+            });
+            setProducts(items);
+        });
+    }
+
+    useEffect(() => {
+        getProducts();
+    }, [])
+
+    // console.log(products);
+
+    // testing array that will contain products before we stablish online conectivity
+    // const [products] = useState([
+    //     {
+    //         name: "Cookies",
+    //         price: "$3.00",
+    //         image: "test_images/cookie.jpg",
+    //         description: "Cookies.  Need I say more?"
+    //     },
+    //     {
+    //         name: "Sandwich",
+    //         price: "$10.00",
+    //         image: "test_images/Sandwich.jpg",
+    //         description: "Artisan sandwiches"
+    //     },
+    //     {
+    //         name: "Coffee",
+    //         price: "$4.00",
+    //         image: "test_images/Coffee.jpg",
+    //         description: "Coffee, available in 'for here' and 'to go' cups"
+    //     },
+    //     {
+    //         name: "Scones",
+    //         price: "$5.50",
+    //         image: "test_images/Scone.jpg",
+    //         description: "Housemade scones"
+    //     },
+    // ]);
 
     return (
         <Container>
@@ -40,9 +59,11 @@ export default () => {
                 <Col s={12} m={9}>
                     <div className="products">
                         {products.map((product, idx) => (
-                            <div className="holder">
-                                <div className="product" key={idx}>
-                                    <img src ={require("./" + product.image)} alt={product.name}></img>
+                            <div className="holder" key={idx}>
+                                <div className="product" >
+                                    <div class="image">
+                                        <img src={product.image} alt={product.name} class="img img-responsive full-width"></img>
+                                    </div>
                                     {/*
                                     The following will be used when the back end is set
                                     <img src ={product.image} alt={product.name}></img>
@@ -51,7 +72,7 @@ export default () => {
                                     */}
                                     <p> {product.name} </p>
                                     <span>
-                                        <button className="button" height = "20px">Add to cart ({product.price})</button>
+                                        <button className="button" height="20px">Add to cart (${product.price})</button>
                                     </span>
                                 </div>
                             </div>
@@ -62,3 +83,4 @@ export default () => {
         </Container>
     );
 };
+
