@@ -1,24 +1,25 @@
 import React from "react";
-import { Alert, Button, Card, Form } from "react-bootstrap";
-import useProductForm from "../hooks/useProductForm";
-import validateProductForm from "../validateProductForm";
+import { Form, Modal, Button, Alert } from "react-bootstrap";
+import useEditProductForm from "../hooks/useEditProductForm";
 
-// TODO: eventually this is going to be used as an edit form too.
-// TODO: display errors
-const ProductForm = () => {
-  const { handleChange, handleSubmit, values, errors } = useProductForm(
-    validateProductForm
+const EditProductForm = (props) => {
+  const { handleChange, handleSubmit, values, errors } = useEditProductForm(
+    props
   );
 
   return (
-    <Card
-      bg="light"
-      text="dark"
-      className="d-flex w-100"
-      style={{ maxWidth: "400px" }}
+    <Modal
+      {...props}
+      size="md"
+      aria-labelledby="contained-modal-title-vcenter"
+      centered
     >
-      <Card.Body>
-        <Card.Title>Add a new product</Card.Title>
+      <Modal.Header closeButton>
+        <Modal.Title id="contained-modal-title-vcenter">
+          Edit product
+        </Modal.Title>
+      </Modal.Header>
+      <Modal.Body>
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="name">
             <Form.Label>Product name</Form.Label>
@@ -27,7 +28,7 @@ const ProductForm = () => {
               placeholder="Ex: Coffee"
               onChange={handleChange}
               name="name"
-              value={values.name}
+              defaultValue={props.product.name}
               required
             />
           </Form.Group>
@@ -37,7 +38,7 @@ const ProductForm = () => {
               as="select"
               onChange={handleChange}
               name="type"
-              value={values.type}
+              defaultValue={props.product.type}
             >
               <option>Choose...</option>
               <option>Food</option>
@@ -53,7 +54,7 @@ const ProductForm = () => {
               placeholder="Write a short description about the product"
               onChange={handleChange}
               name="description"
-              value={values.description}
+              defaultValue={props.product.description}
               required
             />
           </Form.Group>
@@ -64,7 +65,7 @@ const ProductForm = () => {
               placeholder="$"
               onChange={handleChange}
               name="price"
-              value={values.price}
+              defaultValue ={props.product.price}
               required
             />
           </Form.Group>
@@ -74,10 +75,9 @@ const ProductForm = () => {
           <Form.Group>
             <Form.File
               id="image"
-              label="Product Image"
+              label="Product Image (if you'd like to keep the same image, don't upload a new one)"
               onChange={handleChange}
               name="image"
-              required
             />
           </Form.Group>
           {errors.file && <Alert variant="danger">{errors.file}</Alert>}
@@ -87,9 +87,9 @@ const ProductForm = () => {
             </Button>
           </div>
         </Form>
-      </Card.Body>
-    </Card>
+      </Modal.Body>
+    </Modal>
   );
 };
 
-export default ProductForm;
+export default EditProductForm;
