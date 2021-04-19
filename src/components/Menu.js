@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Container, Row, Col } from 'react-materialize';
 import { projectFirestore } from "../firebase";
-import Button from 'react-bootstrap/Button';
 
 export default () => {
 
