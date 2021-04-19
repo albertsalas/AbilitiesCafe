@@ -1,53 +1,103 @@
 import React, { useState } from "react";
-import { TextInput, Button, Icon } from "react-materialize";
+import { Form, Button, Nav } from "react-bootstrap";
 import signUp from "../api/signUp";
+import { useHistory } from "react-router";
 
-export default (props) => {
-    const [data, setData] = useState({
-        firstName: "",
-        lastName: "",
-        email: "",
-        password: ""
-    });
+const SignUp = (props) => {
+  const history = useHistory();
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+  });
 
-    const onSubmit = async () => {
-        const result = signUp(data);
-        if (result === true) {
-            console.log("SIGN UP SUCCESSFUL");
-        } else if (result === false) {
-            console.log("Sign up failed");
-        }
-    };
+  const onSubmit = async () => {
+    const result = signUp(data);
+    if (result === true) {
+      console.log("SIGN UP SUCCESSFUL");
+    } else if (result === false) {
+      console.log("Sign up failed");
+    }
+  };
 
-    const onChangeText = (key, value) => {
-        const newData = { ...data };
-        newData[key] = value;
-        setData(newData);
-    };
+  const onChangeText = (key, value) => {
+    const newData = { ...data };
+    newData[key] = value;
+    setData(newData);
+  };
 
-    return (
-        <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-            <div className="outerBox">
-                <h4>Sign Up</h4>
-                <TextInput label="First Name" onChange={e => onChangeText('firstName', e.target.value)} />
-                <TextInput label="Last Name" onChange={e => onChangeText('lastName', e.target.value)} />
-                <TextInput label="Email" onChange={e => onChangeText('email', e.target.value)} />
-                <TextInput type="password" label="Password" onChange={e => onChangeText('password', e.target.value)} />
-                <Button node="button" type="submit" waves="light" onClick={onSubmit}>
-                    Submit
-                    <Icon right>send</Icon>
-                </Button>
-                <p>
-                    Already have an account? {" "}
-                    <span
-                    onClick={() => {
-                        props.changeState("SI");
-                    }}
-                    >
-                        Sign In
-                    </span>
-                </p>
-            </div>
-        </div>
-    )
-}
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setData({ ...data, [name]: value });
+  };
+
+  const onSignIn = (e) => {
+    e.preventDefault();
+    history.push("/login");
+  };
+
+  return (
+    <div
+      style={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <div className="outerBox">
+        <h4>Sign Up</h4>
+        <Form>
+          <Form.Group controlId="firstName">
+            <Form.Label>First name</Form.Label>
+            <Form.Control
+              type="text"
+              onChange={handleChange}
+              name="name"
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="lastName">
+            <Form.Label>Last name</Form.Label>
+            <Form.Control
+              type="text"
+              onChange={handleChange}
+              name="lastName"
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="email">
+            <Form.Label>Email</Form.Label>
+            <Form.Control
+              type="email"
+              onChange={handleChange}
+              name="email"
+              required
+            />
+          </Form.Group>
+          <Form.Group controlId="password">
+            <Form.Label>Password</Form.Label>
+            <Form.Control
+              type="password"
+              onChange={handleChange}
+              name="password"
+              required
+            />
+          </Form.Group>
+          <Button node="button" type="submit" waves="light" onClick={onSubmit}>
+            Submit
+          </Button>
+        </Form>
+        <Nav class="mt-3">
+          <Nav.Item>
+            <Nav.Link href="#" onClick={onSignIn}>
+              Already have an account? Sign in now!
+            </Nav.Link>
+          </Nav.Item>
+        </Nav>
+      </div>
+    </div>
+  );
+};
+
+export default SignUp;

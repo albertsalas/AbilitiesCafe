@@ -2,7 +2,7 @@ import React, { createContext, useState, useEffect } from "react";
 import { auth } from "../firebase";
 
 const AuthContext = createContext();
-
+// TODO: we'll need to add functionality to distinguish between customers and admins
 export const AuthProvider = ({ children }) => {
   const [currentUser, setCurrentUser] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -28,7 +28,7 @@ export const AuthProvider = ({ children }) => {
   const value = {
     currentUser,
     login,
-    logout
+    logout,
   };
 
   return (
