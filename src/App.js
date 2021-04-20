@@ -1,8 +1,9 @@
 import React from "react";
 import "./App.css";
-import 'bootstrap/dist/css/bootstrap.min.css';
+import "bootstrap/dist/css/bootstrap.min.css";
 import Admin from "./components/Admin";
 import Login from "./components/Login";
+import SignUp from "./components/SignUp";
 import Menu from "./components/Menu";
 import NavBar from "./components/Recurring/NavBar";
 import { BrowserRouter as Router, Route } from "react-router-dom";
@@ -16,6 +17,7 @@ function App() {
           <NavBar />
           <Route path="/" exact render={(props) => <Menu />} />
           <Route path="/login" component={Login} />
+          <Route path="/signup" component={SignUp} />
           <Route path="/admin" component={Admin} />
         </div>
       </Router>

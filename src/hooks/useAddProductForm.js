@@ -1,18 +1,18 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { projectFirestore, projectStorage } from "../firebase";
 import validateProductForm from "../validateProductForm";
 
 /**
  * Hook for uploading form data to Firebase
- * @param {function} callback
+ * @param {function} callback - function that is executed when the hook is done processing data
  * @returns
  */
-const useProductForm = (callback) => {
+const useAddProductForm = (callback) => {
+  const firstRender = useRef(true);
   const [errors, setErrors] = useState({});
   const [file, setFile] = useState("");
   const [values, setValues] = useState({
     description: "",
-    image: "",
     name: "",
     price: "",
     type: "",
@@ -26,8 +26,10 @@ const useProductForm = (callback) => {
     const { name, value, files } = e.target;
     if (files) {
       setFile(files[0]);
+      setValues({ ...values, [name]: files[0].name });
+    } else {
+      setValues({ ...values, [name]: value });
     }
-    setValues({ ...values, [name]: value });
   };
 
   /**
@@ -36,7 +38,6 @@ const useProductForm = (callback) => {
    */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(errors);
     for (var key in errors) {
       if (errors[key]) {
         return;
@@ -49,25 +50,38 @@ const useProductForm = (callback) => {
       "state_changed",
       (snap) => {
         // could show a progress here
-        console.log(snap);
       },
       (error) => {
+        console.log(error);
         alert("There was an error uploading the form");
       },
       async () => {
-        const imageUrl = await storageRef.getDownloadURL();
-        setValues({ ...values, "image": imageUrl });
-        await collectionRef.add(values);
+        await storageRef.getDownloadURL().then((imageUrl) => {
+          collectionRef.add({ ...values, image: imageUrl });
+          callback();
+          setValues({
+            description: "",
+            name: "",
+            price: "",
+            type: "",
+          });
+          setFile("");
+          setErrors({});
+        });
       }
     );
   };
 
   // The form is validated as it changes
   useEffect(() => {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
     setErrors(validateProductForm(values, file));
   }, [values, file]);
 
   return { handleChange, handleSubmit, values, file, errors };
 };
 
-export default useProductForm;
+export default useAddProductForm;
