@@ -1,6 +1,7 @@
 import React, { useContext } from "react";
 import { Alert, Button, Nav, Navbar } from "react-bootstrap";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { MdRestaurantMenu } from "react-icons/md/"
 import { FiLogIn, FiLogOut } from "react-icons/fi";
 import AuthContext from "../../contexts/AuthContext";
 import logo from "../../pageLogo/AbilitiesCafeLogoFinal-1.png";
@@ -18,6 +19,11 @@ const NavBar = () => {
       console.log("error logging out");
     }
   };
+
+  const goToCart = (e) => {
+    e.preventDefault();
+    history.push("/cart");
+  }
 
   const onSignIn = (e) => {
     e.preventDefault();
@@ -59,7 +65,7 @@ const NavBar = () => {
         )}
         {currentUser && (
           <>
-              <Alert variant="info">Signed in as: {currentUser.email}</Alert>
+            <Alert variant="info">Signed in as: {currentUser.email}</Alert>
             <Nav.Link className="ml-auto" onClick={onSignOut}>
               <Button>
                 Sign out <FiLogOut />
@@ -68,10 +74,21 @@ const NavBar = () => {
           </>
         )}
         {location.pathname !== "admin" && (
-          <Nav.Link className="ml-auto">
-            <h3>
-              <AiOutlineShoppingCart />
-            </h3>
+          <Nav.Link className="ml-auto" onClick={goToCart}>
+            <Button>
+              <h3>
+                <AiOutlineShoppingCart />
+              </h3>
+            </Button>
+          </Nav.Link>
+        )}
+        {(
+          <Nav.Link className="ml-auto" onClick={onHome}>
+            <Button>
+              <h3>
+                <MdRestaurantMenu />
+              </h3>
+            </Button>
           </Nav.Link>
         )}
       </Nav>

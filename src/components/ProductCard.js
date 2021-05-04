@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Card, Button, Modal } from "react-bootstrap";
 import { projectFirestore, projectStorage } from "../firebase";
 import EditProductForm from "./EditProductForm";
+import CartContext from "./CartContext";
 
 const ProductCard = (props) => {
   const [modalShow, setModalShow] = useState(false);
   const [productModalShow, setProductModalShow] = useState(false);
   const [productToEdit, setProductToEdit] = useState({});
+  const { addToCart } = useContext(CartContext);
 
   const handleModalClose = () => {
     setModalShow(false);
@@ -91,7 +93,7 @@ const ProductCard = (props) => {
               </Button>
             </>
           )}
-          {!props.isAdmin && <Button variant="primary">Add to Cart</Button>}
+          {!props.isAdmin && <Button variant="primary" onClick={() => addToCart(props.product)}>Add to Cart</Button>}
         </Card.Body>
       </Card>
     </>
