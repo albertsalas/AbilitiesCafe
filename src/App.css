@@ -28,17 +28,32 @@ body {
 }
 
 .holder {
-  padding: min(30px, 5%);
-  background-color: transparent;
-}
-
-.product {
-  padding: min(40px, 7%);
+  padding: min(40px, 5%);
+  margin: 5px;
+  /* background-color: transparent; */
   background-color: aqua;
 }
 
-.products img {
-  width: 100%;
+.product {
+  padding: min(5%);
+  /* background-color: aqua; */
+}
+
+.image{
+    position:relative;
+}
+
+.image::after{
+  content: url();
+  display: block;
+  padding-bottom: 100%;
+}
+
+.image img{
+    position:absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 .product button {
