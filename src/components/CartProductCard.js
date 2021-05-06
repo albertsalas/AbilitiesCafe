@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
     },
     image: {
-        width: 128,
-        height: 128,
+        width: 138,
+        height: 138,
     },
     img: {
         margin: 'auto',
@@ -39,12 +39,27 @@ const useStyles = makeStyles((theme) => ({
     },
     priceTag: {
         margin: 'auto',
-        padding: theme.spacing(2)
+        padding: theme.spacing(4)
+    },
+    quantity: {
+        margin: 'auto',
+        padding: theme.spacing(4)
+    },
+    quantityChange: {
+        paddingLeft: '5%',
+        paddingRight: '5%',
+        backgroundColor: '#007bff',
+        color: 'white'
+        // padding: '3px'
+    },
+    quantityAmount: {
+        paddingLeft: '10%',
+        paddingRight: '10%'
     }
 }));
 
 const CartProductCard = (props) => {
-    const { removeFromCart } = useContext(CartContext);
+    const { removeFromCart, getProductPrice, increaseQuantity, decreaseQuantity } = useContext(CartContext);
     const classes = useStyles();
 
     return (
@@ -55,7 +70,7 @@ const CartProductCard = (props) => {
                         <img className={classes.img} alt="complex" src={props.product.image} />
                     </Grid>
                     <Grid item xs={12} sm container>
-                        <Grid item xs container direction="column" spacing={2}>
+                        <Grid item xs={6} container direction="column" spacing={2}>
                             <Grid item xs>
                                 <Typography gutterBottom variant="subtitle1">
                                     {props.product.name}
@@ -70,8 +85,24 @@ const CartProductCard = (props) => {
                                 </ButtonBase>
                             </Grid>
                         </Grid>
-                        <Grid item className={classes.priceTag}>
-                            <Typography variant="subtitle1">${props.product.price}</Typography>
+                        <Grid item xs container direction="column" className={classes.priceTag}>
+                            <Typography variant="subtitle1">${getProductPrice(props.product)} Each</Typography>
+                        </Grid>
+                        <Grid item xs container direction="column" spacing={2} className={classes.quantity}>
+                            <Typography variant="subtitle1">
+                                Quantity:
+                                <br />
+                                <ButtonBase className={classes.quantityChange} onClick={() => decreaseQuantity(props.product)}>
+                                    -
+                                </ButtonBase>
+                                <span className={classes.quantityAmount}>
+                                    {props.product.quantity}
+                                </span>
+                                <ButtonBase className={classes.quantityChange} onClick={() => increaseQuantity(props.product)}>
+                                    +
+                                </ButtonBase>
+                            </Typography>
+
                         </Grid>
                     </Grid>
                 </Grid>
