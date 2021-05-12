@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CartGrid = () => {
-    const { cart, clearCart, getCartTotal } = useContext(CartContext);
+    const { cart, clearCart, getCartTotal, getCartAmount } = useContext(CartContext);
     const classes = useStyles();
 
     return (
@@ -40,15 +40,20 @@ const CartGrid = () => {
                 </Row>
             ))}
             {cart.length > 0 && (
-                <Grid container spacing={2}>
+                <Grid container spacing={9}>
                     <Grid item>
                         <ButtonBase className={classes.clearCartBtn} onClick={clearCart}>
                             Clear Cart
                         </ButtonBase>
                     </Grid>
                     <Grid item>
-                        <Typography gutterBottom className={classes.cartTotal}>
-                            Total Cost: ${getCartTotal()}
+                        <Typography variant="h6" gutterBottom className={classes.cartTotal}>
+                            Total Items: {getCartAmount()}
+                        </Typography>
+                    </Grid>
+                    <Grid item>
+                        <Typography variant="h6" gutterBottom className={classes.cartTotal}>
+                            Sub Total: ${getCartTotal()}
                         </Typography>
                     </Grid>
                 </Grid>
