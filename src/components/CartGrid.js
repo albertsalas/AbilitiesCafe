@@ -8,12 +8,12 @@ import emptyCart from "../emptyCartImg/emptycart.png";
 const useStyles = makeStyles((theme) => ({
     clearCartBtn: {
         margin: 'auto',
-        marginTop: '10%',
+        // marginTop: '10%',
         // marginLeft: '50%',
         padding: theme.spacing(2.5),
         color: 'white',
         backgroundColor: '#007bff',
-        borderRadius: '15px'
+        borderRadius: '15px',
     },
     image: {
         margin: 'auto',
@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     },
     img: {
         width: '100%'
-    }
+    },
 }));
 
 const CartGrid = () => {
@@ -42,19 +42,34 @@ const CartGrid = () => {
             {cart.length > 0 && (
                 <Grid container spacing={9}>
                     <Grid item>
-                        <ButtonBase className={classes.clearCartBtn} onClick={clearCart}>
-                            Clear Cart
-                        </ButtonBase>
-                    </Grid>
-                    <Grid item>
                         <Typography variant="h6" gutterBottom className={classes.cartTotal}>
                             Total Items: {getCartAmount()}
                         </Typography>
                     </Grid>
-                    <Grid item>
+                    <Grid item xs={2} container >
                         <Typography variant="h6" gutterBottom className={classes.cartTotal}>
                             Sub Total: ${getCartTotal()}
                         </Typography>
+                        <Typography variant="h6" gutterBottom className={classes.cartTotal}>
+                            {
+                                //There is a function to make sure that the amount is shows correctly for money
+                                // Create a function to show tax amount - make sure to make it so that it updates
+                            }
+                            Tax Amount: $(Testing)
+                        </Typography>
+                        <Typography variant="h6" gutterBottom className={classes.cartTotal}>
+                            {
+                                /*
+                                    Add the sub total and tax amount to show the cart Total
+                                */
+                            }
+                            Cart Total: $(Testing)
+                        </Typography>
+                    </Grid>
+                    <Grid item xs={6} container justify="flex-end">
+                        <ButtonBase className={classes.clearCartBtn} onClick={clearCart}>
+                            Clear Cart
+                        </ButtonBase>
                     </Grid>
                 </Grid>
             )}
