@@ -14,7 +14,7 @@ const useAddProductForm = (callback) => {
   const [values, setValues] = useState({
     description: "",
     name: "",
-    price: "",
+    price: 0,
     type: "",
   });
 
@@ -62,7 +62,7 @@ const useAddProductForm = (callback) => {
           setValues({
             description: "",
             name: "",
-            price: "",
+            price: 0,
             type: "",
           });
           setFile("");

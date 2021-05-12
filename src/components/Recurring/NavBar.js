@@ -9,7 +9,7 @@ import { useHistory, useLocation } from "react-router";
 
 const NavBar = () => {
   const location = useLocation();
-  const { currentUser, logout } = useContext(AuthContext);
+  const { currentUser, isAdmin, logout } = useContext(AuthContext);
   const history = useHistory();
   const onSignOut = async (e) => {
     e.preventDefault();
@@ -48,7 +48,7 @@ const NavBar = () => {
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="mr-auto">
-          {currentUser && (
+          {currentUser && isAdmin && (
             <Nav.Link href="#" onClick={onAdmin}>
               Admin
             </Nav.Link>

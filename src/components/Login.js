@@ -8,9 +8,11 @@ const Login = () => {
     email: "",
     password: "",
   });
-  const { login } = useContext(AuthContext);
+  const { login, resetPassword } = useContext(AuthContext);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [showResetPassword, setShowResetPassword] = useState(false);
+  const [emailReset, setEmailReset] = useState("");
   const history = useHistory();
 
   const onSubmit = async (e) => {
@@ -18,10 +20,10 @@ const Login = () => {
     try {
       setError("");
       setLoading(true);
-      await login(userInfo["email"], userInfo["password"]);
+      await login(userInfo);
       setLoading(false);
       history.push("/admin");
-    } catch (error) {
+    } catch {
       setLoading(false);
       setError("No account with those credentials found.");
     }
@@ -37,8 +39,23 @@ const Login = () => {
     history.push("/signup");
   };
 
+  const onForgotPassword = (e) => {
+    e.preventDefault();
+    setShowResetPassword(!showResetPassword);
+  };
+
+  const onSubmitReset = (e) => {
+    e.preventDefault();
+    try {
+      resetPassword(emailReset);
+      setShowResetPassword(!showResetPassword);
+    } catch (error) {
+      console.log("There was an error resetting the password");
+    }
+  };
+
   useEffect(() => {
-    setError(null);
+    setError("");
   }, [userInfo]);
 
   return (
@@ -78,6 +95,32 @@ const Login = () => {
             </Button>
           </Form>
           <Nav class="mt-3">
+            <Nav.Item>
+              <Nav.Link href="#" onClick={onForgotPassword}>
+                Forgot password?
+              </Nav.Link>
+            </Nav.Item>
+            {showResetPassword && (
+              <Nav.Item>
+                <Form onSubmit={onSubmitReset}>
+                  <Form.Group controlId="formBasicEmailReset">
+                    <Form.Label>Email</Form.Label>
+                    <Form.Control
+                      type="email"
+                      name="emailReset"
+                      placeholder="Enter email"
+                      onChange={(e) => {
+                        setEmailReset(e.target.value);
+                      }}
+                      required
+                    />
+                  </Form.Group>
+                  <Button variant="primary" type="submit">
+                    Reset
+                  </Button>
+                </Form>
+              </Nav.Item>
+            )}
             <Nav.Item>
               <Nav.Link href="#" onClick={onSignUp}>
                 Don't have an account? Sign up now!
