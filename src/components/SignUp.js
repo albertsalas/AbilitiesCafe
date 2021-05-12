@@ -1,35 +1,39 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Form, Button, Nav } from "react-bootstrap";
-import signUp from "../api/signUp";
 import { useHistory } from "react-router";
+import AuthContext from "../contexts/AuthContext";
 
 const SignUp = (props) => {
   const history = useHistory();
-  const [data, setData] = useState({
+  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [newUser, setNewUser] = useState({
     firstName: "",
     lastName: "",
     email: "",
     password: "",
+    admin: false,
   });
 
-  const onSubmit = async () => {
-    const result = signUp(data);
-    if (result === true) {
-      console.log("SIGN UP SUCCESSFUL");
-    } else if (result === false) {
-      console.log("Sign up failed");
-    }
-  };
+  const { signUp } = useContext(AuthContext);
 
-  const onChangeText = (key, value) => {
-    const newData = { ...data };
-    newData[key] = value;
-    setData(newData);
+  const onSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      setError("");
+      setLoading(true);
+      await signUp(newUser);
+      setLoading(false);
+      history.push("/");
+    } catch (error) {
+      setLoading(false);
+      console.log(error);
+    }
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setData({ ...data, [name]: value });
+    setNewUser({ ...newUser, [name]: value });
   };
 
   const onSignIn = (e) => {
@@ -53,7 +57,7 @@ const SignUp = (props) => {
             <Form.Control
               type="text"
               onChange={handleChange}
-              name="name"
+              name="firstName"
               required
             />
           </Form.Group>

@@ -37,7 +37,7 @@ const useEditProductForm = (props) => {
       setValues({
         description: "",
         name: "",
-        price: "",
+        price: 0,
         type: "",
       });
       setFile("");
@@ -59,7 +59,7 @@ const useEditProductForm = (props) => {
             setValues({
               description: "",
               name: "",
-              price: "",
+              price: 0,
               type: "",
             });
             setFile("");
