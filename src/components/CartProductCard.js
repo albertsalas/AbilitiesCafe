@@ -17,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
         maxWidth: '100%',
     },
     image: {
-        width: 138,
-        height: 138,
+        maxWidth: '13%',
+        // height: 138,
     },
     img: {
         margin: 'auto',
@@ -72,10 +72,10 @@ const CartProductCard = (props) => {
                     <Grid item xs={12} sm container>
                         <Grid item xs={6} container direction="column" spacing={2}>
                             <Grid item xs>
-                                <Typography gutterBottom variant="subtitle1">
+                                <Typography gutterBottom variant="h4">
                                     {props.product.name}
                                 </Typography>
-                                <Typography variant="body2" gutterBottom>
+                                <Typography variant="h6" gutterBottom>
                                     {props.product.description}
                                 </Typography>
                             </Grid>
@@ -86,10 +86,10 @@ const CartProductCard = (props) => {
                             </Grid>
                         </Grid>
                         <Grid item xs container direction="column" className={classes.priceTag}>
-                            <Typography variant="subtitle1">${getProductPrice(props.product)} Each</Typography>
+                            <Typography variant="h6">${getProductPrice(props.product)} Each</Typography>
                         </Grid>
                         <Grid item xs container direction="column" spacing={2} className={classes.quantity}>
-                            <Typography variant="subtitle1">
+                            <Typography variant="h6">
                                 Quantity:
                                 <br />
                                 <ButtonBase className={classes.quantityChange} onClick={() => decreaseQuantity(props.product)}>

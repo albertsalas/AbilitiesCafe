@@ -47,13 +47,13 @@ const CartGrid = () => {
                         </ButtonBase>
                     </Grid>
                     <Grid item>
-                        <Typography gutterBottom className={classes.cartTotal}>
+                        <Typography variant="h6" gutterBottom className={classes.cartTotal}>
                             Total Items: {getCartAmount()}
                         </Typography>
                     </Grid>
                     <Grid item>
-                        <Typography gutterBottom className={classes.cartTotal}>
-                            Total Cost: ${getCartTotal()}
+                        <Typography variant="h6" gutterBottom className={classes.cartTotal}>
+                            Sub Total: ${getCartTotal()}
                         </Typography>
                     </Grid>
                 </Grid>
